@@ -58,7 +58,12 @@
   <script type="text/javascript">
     pushdata();
     function pushdata() {
-      document.getElementById('mydata').innerHTML = coviddata.data[0].location + " " + coviddata.data[0].dead;
+
+      myhtml="";
+      for(i=0;1<5;i++;){
+        myhtml=myhtml+coviddata.data[i].location + "-Confirmed:" + coviddata.data[i].confirmed+" Dead:"+coviddata.data[i].dead+"<br>";
+      }
+      document.getElementById('mydata').innerHTML = myhtml;
     }
   </script>
 
