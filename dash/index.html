@@ -47,8 +47,7 @@
           <div class="card ">
             <div class="card-content">
               <span class="card-title">Graph</span>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+              <p>InsertContentHere</p>
             </div>
           </div>
         </div>
@@ -75,8 +74,9 @@
   function pushdata(){
     myhtml = "<ul class='collection'>";
     for (i=0;i<5;i++) {
-      myhtml = myhtml + coviddata.data[i].location + " - Confirmed:" + coviddata.data[i].confirmed + " Dead:" + coviddata.data[i].dead + "<br>";
+      myhtml = myhtml + "<li class='collection-item'>"coviddata.data[i].location + " - Confirmed:" + coviddata.data[i].confirmed + " Dead:" + coviddata.data[i].dead + "<br>";
     }
+    myhtml=myhtml+"</ul>"
     document.getElementById("mydata").innerHTML = myhtml;
   }
 
