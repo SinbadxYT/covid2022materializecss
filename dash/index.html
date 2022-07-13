@@ -74,7 +74,7 @@
   function pushdata(){
     myhtml = "<ul class='collection'>";
     for (i=0;i<5;i++) {
-      myhtml = myhtml + "<li class='collection-item'>"coviddata.data[i].location + " - Confirmed:" + coviddata.data[i].confirmed + " Dead:" + coviddata.data[i].dead + " Recuperated:"+ coviddata.data[i].recovered + "<br>";
+      myhtml = myhtml + "<li class='collection-item'>" + coviddata.data[i].location + " - Confirmed:" + coviddata.data[i].confirmed + " Dead:" + coviddata.data[i].dead + " Recuperated:"+ coviddata.data[i].recovered + "<br>";
     }
     myhtml=myhtml+"</ul>"
     document.getElementById("mydata").innerHTML = myhtml;
