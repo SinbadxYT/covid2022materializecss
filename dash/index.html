@@ -82,12 +82,16 @@
 
     mapping();
     function mapping() {
-      var map = L.map('map').setView([-33.8688,151.2093], 13);
+      var map = L.map('map').setView([20.5937,78.9629], 13);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap'
             }).addTo(map);
-            var marker=L.marker([-33.8688,151.2093]).addTo(map)
+            var marker=L.marker([20.5937,78.9629]).addTo(map)
+            var marker=L.marker([-30.5595,22.9375]).addTo(map)
+            var marker=L.marker([32.4279,53.6880]).addTo(map)
+            var marker=L.marker([-14.2350,-51.9253]).addTo(map)
+            var marker=L.marker([51.1657,10.4515]).addTo(map)
     }
 
   </script>
