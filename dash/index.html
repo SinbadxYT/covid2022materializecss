@@ -24,9 +24,10 @@
 
     <nav>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo"><i class="large material-icons">adb</i></a>
+        <a href="#" class="brand-logo"><i class="large material-icons">cancel</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="about.html">About</a></li>
+          <li><a href="contactus.html">Contact Us</a></li>
         </ul>
       </div>
     </nav>
@@ -69,21 +70,24 @@
   </body>
 
 
-  <script>
-    console.log(coviddata.data[0]);
-    var myhtml = "";
+  <script type="text/javascript">
+  pushdata();
+  function pushdata(){
+    myhtml = "<ul class='collection'>";
     for (i=0;i<5;i++) {
       myhtml = myhtml + coviddata.data[i].location + " - Confirmed:" + coviddata.data[i].confirmed + " Dead:" + coviddata.data[i].dead + "<br>";
     }
     document.getElementById("mydata").innerHTML = myhtml;
+  }
 
     mapping();
     function mapping() {
-      var map = L.map('map').setView([1,-1], 13);
+      var map = L.map('map').setView([-33.8688,151.2093], 13);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '© OpenStreetMap'
-      }).addTo(map);s
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+            var marker=L.marker([-33.8688,151.2093]).addTo(map)
     }
 
   </script>
