@@ -2,29 +2,25 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Dashboard</title>
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <script src="covid.json"></script>
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
-  integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-  crossorigin=""/>
-
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
-  integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-  crossorigin=""></script>
-
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
   </head>
   <body>
-
     <nav>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo"><i class="large material-icons">cancel</i></a>
+        <a href="#" class="brand-logo"><i class="material-icons">cancel</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="about.html">About</a></li>
           <li><a href="contactus.html">Contact Us</a></li>
@@ -32,66 +28,78 @@
       </div>
     </nav>
 
-    <div class="mycontainer">
+    <div class="row">
 
-      <div class="row">
-        <div class="col s12 m6">
-          <div class="card ">
-            <div class="card-content">
-              <span class="card-title">Map</span>
-              <div id="map"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col s12 m6">
-          <div class="card ">
-            <div class="card-content">
-              <span class="card-title">Graph</span>
-              <p>InsertContentHere</p>
-            </div>
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Map</span>
+            <div id="map"></div>
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col s12">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Data</span>
-              <p id="mydata"></p>
-            </div>
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Graph</span>
+            <p>A</p>
           </div>
         </div>
       </div>
 
     </div>
 
+    <div class="row">
+      <div class="col s12">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Data</span>
+            <p id="mydata"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
 
-
   <script type="text/javascript">
-  pushdata();
-  function pushdata(){
-    myhtml = "<ul class='collection'>";
-    for (i=0;i<5;i++) {
-      myhtml = myhtml + "<li class='collection-item'>" + coviddata.data[i].location + " - Confirmed: " + coviddata.data[i].confirmed + " Dead: " + coviddata.data[i].dead + " Recuperated: "+ coviddata.data[i].recovered + "<br>";
+    pushdata();
+    function pushdata() {
+      myhtml = "<ul class='collection'>";
+      for (i=0;i<50;i++) {
+        myending = coviddata.data[i].country_code.slice(0,1) + "/" + coviddata.data[i].country_code + ".gif";
+        myurl = "https://www.crwflags.com/fotw/images/" + myending;
+        myhtml = myhtml + "<li class='collection-item avatar'><img src='" + myurl + "' width='40px' class='circle'> " + coviddata.data[i].location + "<p>" + coviddata.data[i].dead + "</p></li>";
+      }
+      myhtml = myhtml + "</ul>"
+      document.getElementById('mydata').innerHTML = myhtml;
     }
-    myhtml=myhtml+"</ul>"
-    document.getElementById("mydata").innerHTML = myhtml;
-  }
 
     mapping();
     function mapping() {
-      var map = L.map('map').setView([20.5937,78.9629], 13);
+      var map = L.map('map').setView([20.5937,78.9629], 5);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
-            var marker=L.marker([20.5937,78.9629]).addTo(map)
-            var marker=L.marker([-30.5595,22.9375]).addTo(map)
-            var marker=L.marker([32.4279,53.6880]).addTo(map)
-            var marker=L.marker([-14.2350,-51.9253]).addTo(map)
-            var marker=L.marker([51.1657,10.4515]).addTo(map)
+          maxZoom: 19,
+          attribution: '© OpenStreetMap'
+      }).addTo(map);
+      algo(map);
+    }
+
+    function algo(map) {
+      for (i=0;i<coviddata.data.length;i++) {
+        lat = coviddata.data[i].latitude;
+        lon = coviddata.data[i].longitude;
+        rad = coviddata.data[i].dead * 2;
+
+        pop = "<h5>Detail</h5>" + coviddata.data[i].location + "- Confirmed:"  + coviddata.data[i].confirmed + " Dead: " + coviddata.data[i].dead + " Recuperated: "+ coviddata.data[i].recovered + "<br>";
+
+        var circle = L.circle([lat, lon], {
+            color: 'blue',
+            fillColor: '#0000FF',
+            fillOpacity: 0.5,
+            radius: rad
+        }).bindPopup(pop).addTo(map);
+      }
     }
 
   </script>
