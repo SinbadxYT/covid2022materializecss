@@ -16,14 +16,14 @@
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
     integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
     crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   </head>
   <body>
     <nav>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo"><i class="material-icons">cancel</i></a>
+        <a href="#" class="brand-logo"><i class="material-icons">adb</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="about.html">About</a></li>
-          <li><a href="contactus.html">Contact Us</a></li>
         </ul>
       </div>
     </nav>
@@ -41,8 +41,8 @@
       <div class="col s12 m6">
         <div class="card">
           <div class="card-content">
-            <span class="card-title">Graph</span>
-            <p>A</p>
+            <span class="card-title">Chart</span>
+            <canvas id="bar-chart" width="800" height="450"></canvas>
           </div>
         </div>
       </div>
@@ -65,7 +65,11 @@
   <script type="text/javascript">
     pushdata();
     function pushdata() {
-      myhtml = "<ul class='collection'>";
+
+      objs = coviddata.data;
+      objs.sort((a,b) => b.dead - a.dead);
+
+      myhtml = "<ul class='collection'>"; // building a string to push to p tag
       for (i=0;i<50;i++) {
         myending = coviddata.data[i].country_code.slice(0,1) + "/" + coviddata.data[i].country_code + ".gif";
         myurl = "https://www.crwflags.com/fotw/images/" + myending;
@@ -77,11 +81,13 @@
 
     mapping();
     function mapping() {
-      var map = L.map('map').setView([20.5937,78.9629], 5);
+      var map = L.map('map').setView([51,0], 1);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '© OpenStreetMap'
       }).addTo(map);
+      // don't need the marker any more
+      //var marker = L.marker([51.5, -0.09]).addTo(map);
       algo(map);
     }
 
@@ -91,16 +97,52 @@
         lon = coviddata.data[i].longitude;
         rad = coviddata.data[i].dead * 2;
 
-        pop = "<h5>Detail</h5>" + coviddata.data[i].location + "- Confirmed:"  + coviddata.data[i].confirmed + " Dead: " + coviddata.data[i].dead + " Recuperated: "+ coviddata.data[i].recovered + "<br>";
+        pop = "<h5>Detail</h5>" + coviddata.data[i].location + "<br>" + coviddata.data[i].dead;
 
         var circle = L.circle([lat, lon], {
-            color: 'blue',
-            fillColor: '#0000FF',
+            color: 'red',
+            fillColor: '#f03',
             fillOpacity: 0.5,
             radius: rad
         }).bindPopup(pop).addTo(map);
       }
     }
+
+    bar();
+    function bar() {
+
+      objs = coviddata.data;
+      objs.sort((a,b) => b.dead - a.dead);
+
+      mylabs = [];
+      mydata = [];
+      for (i=0;i<5;i++) {
+        mylabs.push(coviddata.data[i].location);
+        mydata.push(coviddata.data[i].dead);
+      }
+
+      new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+          labels: mylabs,
+          datasets: [
+            {
+              label: "COVID deaths",
+              backgroundColor: ["#fdd835", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+              data: mydata
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'COVID deaths 2021'
+          }
+        }
+      });
+    }
+
 
   </script>
 
