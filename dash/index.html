@@ -21,9 +21,11 @@
   <body>
     <nav>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo"><i class="material-icons">adb</i></a>
+        <a href="#" class="brand-logo"><i class="material-icons">cancel</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="about.html">About</a></li>
+          <li><a href="contactus.html">Contact Us</a></li>
+          <li><a href="donate.html">Support Us</a></li>
         </ul>
       </div>
     </nav>
@@ -38,6 +40,7 @@
           </div>
         </div>
       </div>
+
       <div class="col s12 m6">
         <div class="card">
           <div class="card-content">
@@ -69,7 +72,7 @@
       objs = coviddata.data;
       objs.sort((a,b) => b.dead - a.dead);
 
-      myhtml = "<ul class='collection'>"; // building a string to push to p tag
+      myhtml = "<ul class='collection'>";
       for (i=0;i<50;i++) {
         myending = coviddata.data[i].country_code.slice(0,1) + "/" + coviddata.data[i].country_code + ".gif";
         myurl = "https://www.crwflags.com/fotw/images/" + myending;
@@ -86,8 +89,6 @@
           maxZoom: 19,
           attribution: '© OpenStreetMap'
       }).addTo(map);
-      // don't need the marker any more
-      //var marker = L.marker([51.5, -0.09]).addTo(map);
       algo(map);
     }
 
@@ -97,11 +98,11 @@
         lon = coviddata.data[i].longitude;
         rad = coviddata.data[i].dead * 2;
 
-        pop = "<h5>Detail</h5>" + coviddata.data[i].location + "<br>" + coviddata.data[i].dead;
+        pop = "<h5>Detail</h5>" + coviddata.data[i].location + "- Confirmed:" + coviddata.data[i].confirmed + " Dead:" + coviddata.data[i].dead + " Recovered:" + coviddata.data[i].recovered +"<br>";
 
         var circle = L.circle([lat, lon], {
-            color: 'red',
-            fillColor: '#f03',
+            color: 'black',
+            fillColor: '#ff0000',
             fillOpacity: 0.5,
             radius: rad
         }).bindPopup(pop).addTo(map);
@@ -128,7 +129,7 @@
           datasets: [
             {
               label: "COVID deaths",
-              backgroundColor: ["#fdd835", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+              backgroundColor: ["#17252A", "#2B7A78","#3AAFA9","#DEF2F1","#6C648B"],
               data: mydata
             }
           ]
@@ -137,11 +138,13 @@
           legend: { display: false },
           title: {
             display: true,
-            text: 'COVID deaths 2021'
+            text: 'COVID deaths'
           }
         }
       });
     }
+
+
 
 
   </script>
