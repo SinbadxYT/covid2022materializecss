@@ -6,7 +6,7 @@ coviddata={
          "country_code":"in",
          "latitude":20.593684,
          "longitude":78.96288,
-         "confirmed":29762793,
+         "confirmed":balls,
          "dead":383521,
          "recovered":28580647,
          "updated":"2021-06-18 11:30:09.524722+00:00"
